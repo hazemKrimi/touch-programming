@@ -1,0 +1,5 @@
+[*.{html,css,js,jsx,json}]
+charset = utf-8
+indent_style = tab
+indent_size = 2
+quote_type= single

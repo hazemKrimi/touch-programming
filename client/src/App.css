@@ -1,0 +1,41 @@
+.container {
+  max-width: 500px;
+  margin: auto;
+  padding: 1rem;
+	letter-spacing: 0.25rem;
+}
+
+.pending {
+	color: gray;
+}
+
+.highlight {
+	color: white;
+}
+
+.correct {
+	color: green;
+}
+
+.incorrect {
+	color: red;
+}
+
+.enter:before {
+	content: '\21b5';
+}
+
+.enter:after {
+	content: '';
+	display: block;
+	clear: both;
+}
+
+.tab:before {
+	content: '\2192';
+}
+
+.space {
+	border-bottom-width: 0.15rem;
+	border-bottom-style: dashed;
+}
