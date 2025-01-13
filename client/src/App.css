@@ -1,5 +1,4 @@
 .container {
-  max-width: 500px;
   margin: auto;
   padding: 1rem;
 	letter-spacing: 0.25rem;
@@ -23,12 +22,13 @@
 
 .enter:before {
 	content: '\21b5';
+	display: inline-block;
 }
 
 .enter:after {
 	content: '';
 	display: block;
-	clear: both;
+	clear: right;
 }
 
 .tab:before {

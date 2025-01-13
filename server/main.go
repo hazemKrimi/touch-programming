@@ -41,9 +41,9 @@ func main() {
 
 		ollamaCtx := context.Background()
 		content := []llms.MessageContent{
-			llms.TextParts(llms.ChatMessageTypeSystem, `You are only a code generator. You must not respond with anything else but code and do not format with code fences.`),
+			llms.TextParts(llms.ChatMessageTypeSystem, `You are only a code generator. You must not respond with anything else but code and do not format with code fences. Always use tabs instead of spaces.`),
 			llms.TextParts(llms.ChatMessageTypeHuman, fmt.Sprintf(`
-				Generate max %d lines of code without any unncessary formatting from a well known open source project in the %s programming language. First line should always be a code comment in this format: Language/Project`, lines, lang)),
+				Generate max %d lines of code without any unncessary formatting from a well known open source project in the %s programming language. First line should always be a code comment in the used language in this format: "// Language/Project"`, lines, lang)),
 		}
 
 		if _, err := llm.GenerateContent(ollamaCtx, content, llms.WithStreamingFunc(func(streamCtx context.Context, chunk []byte) error {
