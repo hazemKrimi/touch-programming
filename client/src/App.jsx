@@ -4,13 +4,14 @@ import './App.css';
 const KEYS_TO_DISABLE = ['Backspace', 'Shift', 'Alt', 'Control', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12', 'Escape', 'Delete', 'PageDown', 'PageUp', 'Home', 'End', 'Insert', 'WakeUp', 'Pause', 'ScrollLock', 'ContextMenu', 'BrowserForward', 'BrowserBack', 'CapsLock', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
 
 function App() {
+	// TODO: Cleanup the file and create utils for spacing and trimming the code properly.
 	const [code, setCode] = useState('');
 	const [loaded, setLoaded] = useState(false);
 	const [characters, setCharacters] = useState([]);
 
 	useEffect(() => {
 		(async function() {
-			const response = await fetch('http://localhost:5000/generate?lang=golang&lines=10');
+			const response = await fetch('http://localhost:5000/generate?lang=julia&lines=10');
 			const reader = response.body.getReader();
 			const decoder = new TextDecoder();
 
@@ -21,12 +22,13 @@ function App() {
 
 				if (done) {
 					setLoaded(true);
+					setCode(prev => prev.replace(/\s\n/g, '\n'));
 					break;
 				}
 			}
 		})();
 	}, []);
-
+	
 	useEffect(() => {
 		function handleKeyPress(event) {
 			event.preventDefault();
@@ -34,17 +36,20 @@ function App() {
 			if (!loaded) return;
 			if (characters.length === code.length) return;
 			if (KEYS_TO_DISABLE.includes(event.key)) return;
-			if (code[characters.length] === '\n')
+			
+			const char = code[characters.length];
+
+			if (/^\n$/.test(char))
 				return setCharacters(
 					characters.concat(event.key === 'Enter')
 				);
-			if (code[characters.length] === '\t')
+			if (/^(\s|\t)$/.test(char))
 				return setCharacters(
-					characters.concat(event.key === 'Tab')
+					characters.concat(['Space', 'Tab'].includes(event.key))
 				);
 
 			setCharacters(
-				characters.concat(event.key === code[characters.length])
+				characters.concat(event.key === char)
 			);
 		}
 
@@ -55,30 +60,45 @@ function App() {
 	}, [loaded, characters]);
 
 	function renderCharacterClassName(index) {
-		if (index === characters.length) return 'highlight'
-		if (typeof characters[index] === 'undefined') return 'pending'
-		if (!characters[index]) return 'incorrect'
+		const typed = characters[index];
 
-		return 'correct'
+		if (loaded && index === characters.length) return 'highlight';
+		if (typeof typed === 'undefined') return 'pending';
+		if (!typed) return 'incorrect';
+
+		return 'correct';
 	}
 
-	// TODO: Remove rendering of spacing characters and render a cursor with the highlight instead.
-	// TODO: Or look into pretty printing libraries.
 	function renderSpacingCharacter(char) {
-		if (/^\n$/.test(char)) return 'enter'
-		if (/^\t$/.test(char)) return 'tab'
-		if (/^\s$/.test(char)) return 'space'
+		if (/^\n$/.test(char)) return '\n';
+		if (/^(\s|\t)$/.test(char)) return '\u00A0'
 
-		return ''
+		return char;
 	}
 
-	function renderClassName(index, char) {
-		return `${renderCharacterClassName(index)} ${renderSpacingCharacter(char)}`.trim();
+	function renderClassName(index) {
+		return `${renderCharacterClassName(index)}`.trim();
 	}
 
-	return <div className='container'>{code.split('').map((char, index) => (
-		<span className={renderClassName(index, char)} key={char + index}>{char}</span>
-	))}</div>;
+	function renderCharacter(char, index) {
+		const rendered = renderSpacingCharacter(char);
+
+		if (/^\n$/.test(rendered)) {
+			return <span className={renderClassName(index)} key={char + index}><br /></span>
+		}
+
+		return (
+			<span className={renderClassName(index)} key={char + index}>
+				{rendered}
+			</span>
+		);
+	}
+
+	return (
+		<div className='container'>
+			{code.split('').map((char, index) => renderCharacter(char, index))}
+		</div>
+	);
 }
 
 export default App;

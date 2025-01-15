@@ -1,7 +1,7 @@
 .container {
   margin: auto;
   padding: 1rem;
-	letter-spacing: 0.25rem;
+	letter-spacing: 0.12rem;
 }
 
 .pending {
@@ -9,7 +9,8 @@
 }
 
 .highlight {
-	color: white;
+	color: gray;
+	animation: blink 0.75s infinite ease-in-out;
 }
 
 .correct {
@@ -20,22 +21,16 @@
 	color: red;
 }
 
-.enter:before {
-	content: '\21b5';
-	display: inline-block;
-}
+@keyframes blink {
+	0% {
+		border-left: 1px solid white;
+	}
 
-.enter:after {
-	content: '';
-	display: block;
-	clear: right;
-}
+	50% {
+		border-left: 1px solid transparent;
+	}
 
-.tab:before {
-	content: '\2192';
-}
-
-.space {
-	border-bottom-width: 0.15rem;
-	border-bottom-style: dashed;
+	100% {
+		border-left: 1px solid white;
+	}
 }
