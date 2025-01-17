@@ -11,7 +11,7 @@ function App() {
 
 	useEffect(() => {
 		(async function() {
-			const response = await fetch('http://localhost:5000/generate?lang=julia&lines=10');
+			const response = await fetch(`${import.meta.env.VITE_API_URL}/generate?lang=typescript&lines=20`);
 			const reader = response.body.getReader();
 			const decoder = new TextDecoder();
 
@@ -22,7 +22,6 @@ function App() {
 
 				if (done) {
 					setLoaded(true);
-					setCode(prev => prev.replace(/\s\n/g, '\n'));
 					break;
 				}
 			}
