@@ -108,7 +108,6 @@ func main() {
 			cleaned := parser.ParseStream(chunk)
 
 			if len(cleaned) > 0 {
-				fmt.Println(chunk, string(chunk))
 				ctx.Response().Write(cleaned)
 				ctx.Response().Flush()
 			}
