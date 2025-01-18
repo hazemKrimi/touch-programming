@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
@@ -17,39 +18,49 @@ import (
 )
 
 type CodeBlockParser struct {
-	processed  int
-	foundStart bool
-	foundEnd   bool
+	processedChunks          int
+	removedStartingBackticks bool
+	removedLanguageName      bool
+	removedEndingBackticks   bool
 }
 
 func NewCodeBlockParser() *CodeBlockParser {
 	return &CodeBlockParser{
-		processed:  0,
-		foundStart: false,
-		foundEnd:   false,
+		processedChunks:          0,
+		removedStartingBackticks: false,
+		removedLanguageName:      false,
+		removedEndingBackticks:   false,
 	}
 }
 
-func (p *CodeBlockParser) ParseStream(chunk []byte) []byte {
-	if !p.foundStart {
+// TODO: Use channels to stream date at a specific byte size to make control restrictions properly.
+func (p *CodeBlockParser) ParseStream(chunk []byte, language string) []byte {
+	if !p.removedStartingBackticks {
 		if bytes.Contains(chunk, []byte("```")) {
-			p.foundStart = true
+			p.removedStartingBackticks = true
 			chunk = nil
 		}
 	}
 
-	if p.foundStart && p.processed == 1 {
-		chunk = nil
+	if p.removedStartingBackticks && p.processedChunks <= 3 {
+		if strings.Contains(language, string(chunk)) {
+			chunk = nil
+		}
+
+		if string(chunk) == "\n" {
+			chunk = nil
+			p.removedLanguageName = true
+		}
 	}
 
-	if p.foundStart && !p.foundEnd {
+	if p.removedStartingBackticks && !p.removedEndingBackticks {
 		if bytes.Contains(chunk, []byte("```")) {
-			p.foundEnd = true
+			p.removedEndingBackticks = true
 			chunk = nil
 		}
 	}
 
-	p.processed += 1
+	p.processedChunks += 1
 	return chunk
 }
 
@@ -99,13 +110,13 @@ func main() {
 		parser := NewCodeBlockParser()
 		ollamaCtx := context.Background()
 		prompt := []llms.MessageContent{
-			llms.TextParts(llms.ChatMessageTypeSystem, `You must only generate code without any descriptions. Also don't include any code comments and use spaces instead of tabs for spacing. Most importantly. Most importantly you must remove any markdown code fences that wrap the content!`),
+			llms.TextParts(llms.ChatMessageTypeSystem, `You must only generate code without any descriptions or formatting like markdown code fences with backticks. Also don't include any code comments and use spaces instead of tabs for spacing. Most importantly respect the number of lines provided you get asked to generate!`),
 			llms.TextParts(llms.ChatMessageTypeHuman, fmt.Sprintf(`
-				Generate a maximum of %d lines of code from a well known open source project in the %s programming language.`, lines, lang)),
+				Generate exactly %d lines of code from a well known open source project in the %s programming language.`, lines, lang)),
 		}
 
 		if _, err := llm.GenerateContent(ollamaCtx, prompt, llms.WithStreamingFunc(func(streamCtx context.Context, chunk []byte) error {
-			cleaned := parser.ParseStream(chunk)
+			cleaned := parser.ParseStream(chunk, lang)
 
 			if len(cleaned) > 0 {
 				ctx.Response().Write(cleaned)

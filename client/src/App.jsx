@@ -11,7 +11,9 @@ function App() {
 
 	useEffect(() => {
 		(async function() {
-			const response = await fetch(`${import.meta.env.VITE_API_URL}/generate?lang=scala&lines=20`);
+			setCode('');
+
+			const response = await fetch(`${import.meta.env.VITE_API_URL}/generate?lang=go&lines=10`);
 			const reader = response.body.getReader();
 			const decoder = new TextDecoder();
 
@@ -22,6 +24,7 @@ function App() {
 
 				if (done) {
 					setLoaded(true);
+					setCode(prev => prev.trim());
 					break;
 				}
 			}
