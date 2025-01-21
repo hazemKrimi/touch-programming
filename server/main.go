@@ -20,7 +20,6 @@ import (
 type CodeBlockParser struct {
 	channel                  chan []byte
 	processedChunks          int
-	processedLines           int
 	removedStartingBackticks bool
 	removedLanguageName      bool
 	removedEndingBackticks   bool
@@ -30,7 +29,6 @@ func NewCodeBlockParser() *CodeBlockParser {
 	return &CodeBlockParser{
 		channel:                  make(chan []byte),
 		processedChunks:          0,
-		processedLines:           0,
 		removedStartingBackticks: false,
 		removedLanguageName:      false,
 		removedEndingBackticks:   false,
@@ -38,10 +36,6 @@ func NewCodeBlockParser() *CodeBlockParser {
 }
 
 func (p *CodeBlockParser) ParseStream(chunk []byte, language string) {
-	if strings.Contains(string(chunk), "\n") {
-		p.processedLines += 1
-	}
-
 	if !p.removedStartingBackticks {
 		if bytes.Contains(chunk, []byte("```")) {
 			p.removedStartingBackticks = true
@@ -62,9 +56,13 @@ func (p *CodeBlockParser) ParseStream(chunk []byte, language string) {
 
 	if p.removedStartingBackticks && !p.removedEndingBackticks {
 		if bytes.Contains(chunk, []byte("```")) {
-			p.removedEndingBackticks = true
 			chunk = nil
+			p.removedEndingBackticks = true
 		}
+	}
+
+	if p.removedEndingBackticks {
+		chunk = nil
 	}
 
 	p.processedChunks += 1
@@ -117,9 +115,8 @@ func main() {
 		parser := NewCodeBlockParser()
 		ollamaCtx := context.Background()
 		prompt := []llms.MessageContent{
-			llms.TextParts(llms.ChatMessageTypeSystem, `You must only generate code without any descriptions or formatting like markdown code fences with backticks. Also don't include any code comments and use spaces instead of tabs for spacing. Most importantly respect the number of lines provided you get asked to generate!`),
 			llms.TextParts(llms.ChatMessageTypeHuman, fmt.Sprintf(`
-				Generate exactly %d lines of code from a well known open source project in the %s programming language.`, lines, lang)),
+				You must only generate code without any descriptions or code comments or formatting like markdown code fences with backticks. Use spaces instead of tabs for spacing. Generate accurately according to the number of lines you get provided. Generate exactly between %d and %d lines of code from a well known open source project in the %s programming language.`, lines/2, lines, lang)),
 		}
 
 		if _, err := llm.GenerateContent(ollamaCtx, prompt, llms.WithStreamingFunc(func(streamCtx context.Context, chunk []byte) error {

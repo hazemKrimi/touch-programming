@@ -13,7 +13,7 @@ function App() {
 		(async function() {
 			setCode('');
 
-			const response = await fetch(`${import.meta.env.VITE_API_URL}/generate?lang=go&lines=10`);
+			const response = await fetch(`${import.meta.env.VITE_API_URL}/generate?lang=ocaml&lines=20`);
 			const reader = response.body.getReader();
 			const decoder = new TextDecoder();
 
