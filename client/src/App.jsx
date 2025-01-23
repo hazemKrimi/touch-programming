@@ -13,7 +13,7 @@ function App() {
 		(async function() {
 			setCode('');
 
-			const response = await fetch(`${import.meta.env.VITE_API_URL}/generate?lang=ocaml&lines=20`);
+			const response = await fetch(`${import.meta.env.VITE_API_URL}/generate?lang=java&lines=50`);
 			const reader = response.body.getReader();
 			const decoder = new TextDecoder();
 
@@ -23,11 +23,12 @@ function App() {
 				setCode(prev => prev + decoder.decode(value));
 
 				if (done) {
-					setLoaded(true);
-					setCode(prev => prev.trim());
 					break;
 				}
 			}
+
+			setCode(prev => prev.trim());
+			setLoaded(true);
 		})();
 	}, []);
 	
