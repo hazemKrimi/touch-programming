@@ -4,7 +4,8 @@ import './App.css';
 const KEYS_TO_DISABLE = ['Backspace', 'Shift', 'Alt', 'Control', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12', 'Escape', 'Delete', 'PageDown', 'PageUp', 'Home', 'End', 'Insert', 'WakeUp', 'Pause', 'ScrollLock', 'ContextMenu', 'BrowserForward', 'BrowserBack', 'CapsLock', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
 
 function App() {
-	// TODO: Cleanup the file and create utils for spacing and trimming the code properly.
+	// TODO: Cleanup the file and create utils for trimming the code properly.
+	// TODO: Create a function that combines a sequence of spaces into tabs.
 	const [code, setCode] = useState('');
 	const [loaded, setLoaded] = useState(false);
 	const [characters, setCharacters] = useState([]);
@@ -13,7 +14,7 @@ function App() {
 		(async function() {
 			setCode('');
 
-			const response = await fetch(`${import.meta.env.VITE_API_URL}/generate?lang=java&lines=50`);
+			const response = await fetch(`${import.meta.env.VITE_API_URL}/generate?lang=java&lines=15`);
 			const reader = response.body.getReader();
 			const decoder = new TextDecoder();
 

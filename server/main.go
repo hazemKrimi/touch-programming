@@ -87,6 +87,7 @@ func main() {
 
 	ech.Use(middleware.CORS())
 	ech.GET("/generate", func(ctx echo.Context) error {
+		// TODO: Make lines an environment variable and tweak it along with the prompt to get a suitable number of lines for the challenge to be fun and not too hard but still challenging.
 		lines, err := strconv.Atoi(ctx.QueryParam("lines"))
 
 		if err != nil {
@@ -112,7 +113,7 @@ func main() {
 		ollamaCtx := context.Background()
 		prompt := []llms.MessageContent{
 			llms.TextParts(llms.ChatMessageTypeHuman, fmt.Sprintf(`
-				You must only generate code without any descriptions or code comments and use spaces instead of tabs for spacing. Generate a maximum of %d lines of code from a well known open source project in the %s programming language.`, lines, lang)),
+				You must only generate code without any text descriptions or code comments and use spaces instead of tabs for spacing. Generate a maximum of %d lines of code from a well known open source project in the %s programming language.`, lines, lang)),
 		}
 
 		if _, err := llm.GenerateContent(ollamaCtx, prompt, llms.WithStreamingFunc(func(streamCtx context.Context, chunk []byte) error {
