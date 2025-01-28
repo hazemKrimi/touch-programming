@@ -14,7 +14,7 @@ function App() {
 		(async function() {
 			setCode('');
 
-			const response = await fetch(`${import.meta.env.VITE_API_URL}/generate?lang=java&lines=15`);
+			const response = await fetch(`${import.meta.env.VITE_API_URL}/generate?lang=lua`);
 			const reader = response.body.getReader();
 			const decoder = new TextDecoder();
 

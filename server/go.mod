@@ -1,4 +1,4 @@
-module experiment/oss-code-generator-ai-powered
+module touch-programming.hazemkrimi.tech
 
 go 1.23.4
 
