@@ -1,0 +1,36 @@
+.container {
+  margin: auto;
+  padding: 1rem;
+  letter-spacing: 0.12rem;
+}
+
+.pending {
+  color: gray;
+}
+
+.highlight {
+  color: gray;
+  animation: blink 0.75s infinite ease-in-out;
+}
+
+.correct {
+  color: green;
+}
+
+.incorrect {
+  color: red;
+}
+
+@keyframes blink {
+  0% {
+    border-left: 1px solid white;
+  }
+
+  50% {
+    border-left: 1px solid transparent;
+  }
+
+  100% {
+    border-left: 1px solid white;
+  }
+}
