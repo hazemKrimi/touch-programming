@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { KEYS_TO_DISABLE } from 'constants/default';
+
 import './index.css';
 
 function Code() {
@@ -7,14 +8,14 @@ function Code() {
   // TODO: Create a function that combines a sequence of spaces into tabs.
   const [code, setCode] = useState<string>('');
   const [loaded, setLoaded] = useState<boolean>(false);
-  const [characters, setCharacters] = useState<Array<boolean>>([]);
+  const [characters, setCharacters] = useState<Array<boolean | 'space'>>([]);
 
   useEffect(() => {
     (async function () {
       setCode('');
 
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/generate?lang=lisp`,
+        `${import.meta.env.VITE_API_URL}/generate?lang=typescript`,
       );
 
       if (!response.ok || !response.body) return;
@@ -47,12 +48,19 @@ function Code() {
 
       const char = code[characters.length];
 
-      if (/^\n$/.test(char))
-        return setCharacters(characters.concat(event.key === 'Enter'));
-      if (/^(\s|\t)$/.test(char))
-        return setCharacters(
-          characters.concat(['Space', 'Tab'].includes(event.key)),
-        );
+      if (/^\n$/.test(char)) {
+        const traversedCharacters: Array<boolean | 'space'> = [event.key === 'Enter'];
+        let numberOfTraversedCharacters = characters.length + 1;
+        let space = code[numberOfTraversedCharacters];
+
+        while (/^\s$/.test(space)) {
+          traversedCharacters.push('space');
+          numberOfTraversedCharacters++;
+          space = code[numberOfTraversedCharacters];
+        }
+
+        return setCharacters(characters.concat(...traversedCharacters));
+      }
 
       setCharacters(characters.concat(event.key === char));
     }
@@ -60,7 +68,7 @@ function Code() {
     window.addEventListener('keydown', handleKeyPress);
 
     return () => window.removeEventListener('keydown', handleKeyPress);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loaded, characters]);
 
   function renderCharacterClassName(index: number) {
@@ -68,6 +76,9 @@ function Code() {
 
     if (loaded && index === characters.length) return 'highlight';
     if (typeof typed === 'undefined') return 'pending';
+    if (typed === 'space') return 'space';
+    if (!typed && /^\n$/.test(code[index])) return 'incorrect-enter';
+    if (!typed && /^\s$/.test(code[index])) return 'incorrect-space';
     if (!typed) return 'incorrect';
 
     return 'correct';

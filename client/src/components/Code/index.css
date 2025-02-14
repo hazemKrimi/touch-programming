@@ -4,7 +4,7 @@
   letter-spacing: 0.12rem;
 }
 
-.pending {
+.pending, .space {
   color: gray;
 }
 
@@ -19,6 +19,14 @@
 
 .incorrect {
   color: red;
+}
+
+.incorrect-space {
+  border-bottom: 1px solid red;
+}
+
+.incorrect-enter {
+  border-left: 1px solid red;
 }
 
 @keyframes blink {
