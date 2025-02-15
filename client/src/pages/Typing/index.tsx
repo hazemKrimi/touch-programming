@@ -43,7 +43,7 @@ function Typing() {
     <TypingContextProvider>
       <div className='container'>
         <Code code={code} loaded={loaded} />
-        <Stats />
+        <Stats loaded={loaded} />
       </div>
     </TypingContextProvider>
   );

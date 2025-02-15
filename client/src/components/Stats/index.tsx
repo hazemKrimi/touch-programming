@@ -2,12 +2,18 @@ import { useTypingContext } from "contexts/typing";
 
 import './index.css';
 
-function Score() {
+type StatsProps = {
+  loaded: boolean;
+}
+
+function Score({loaded}: StatsProps) {
   const {
     timer,
     score,
     accuracy,
   } = useTypingContext();
+
+  if (!loaded) return;
 
   return (
     <div className='score'>
