@@ -8,14 +8,18 @@ function Code() {
   // TODO: Create a function that combines a sequence of spaces into tabs.
   const [code, setCode] = useState<string>('');
   const [loaded, setLoaded] = useState<boolean>(false);
+  const [startedTyping, setStartedTyping] = useState<boolean>(false);
   const [characters, setCharacters] = useState<Array<boolean | 'space'>>([]);
+  const [timer, setTimer] = useState<number>(0);
+  const [score, setScore] = useState<number>(0);
+  const [accuracy, setAccuracy] = useState<number>(0);
 
   useEffect(() => {
     (async function () {
       setCode('');
 
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/generate?lang=typescript`,
+        `${import.meta.env.VITE_API_URL}/generate?lang=lisp`,
       );
 
       if (!response.ok || !response.body) return;
@@ -39,12 +43,34 @@ function Code() {
   }, []);
 
   useEffect(() => {
+    let interval = null;
+
+    if (!startedTyping) {
+      if (interval) clearInterval(interval);
+
+      return;
+    }
+
+    interval = setInterval(() => {
+      setTimer(prev => prev + 1);
+    }, 1000);
+    
+    return () => clearInterval(interval);
+  }, [startedTyping]);
+
+  useEffect(() => {
     function handleKeyPress(event: KeyboardEvent) {
       event.preventDefault();
 
       if (!loaded) return;
-      if (characters.length === code.length) return;
+      if (characters.length === code.length) {
+        setStartedTyping(false);
+
+        return;
+      }
       if (KEYS_TO_DISABLE.includes(event.key)) return;
+
+      if (!startedTyping) setStartedTyping(true);
 
       const char = code[characters.length];
 
@@ -70,6 +96,17 @@ function Code() {
     return () => window.removeEventListener('keydown', handleKeyPress);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loaded, characters]);
+
+  useEffect(() => {
+    const typed = characters.filter(char => char !== 'space').length;
+    const correctlyTyped = characters.filter(char => char && char !== 'space').length;
+    const incorrectlyTyped = characters.filter(char => !char).length;
+
+    if (timer > 0) {
+      setScore((typed / 5 - incorrectlyTyped) / (timer / 60));
+      setAccuracy(correctlyTyped / typed * 100);
+    }
+  }, [timer, characters]);
 
   function renderCharacterClassName(index: number) {
     const typed = characters[index];
@@ -115,7 +152,14 @@ function Code() {
 
   return (
     <div className='container'>
-      {code.split('').map((char, index) => renderCharacter(char, index))}
+      <div className='code'>
+        {code.split('').map((char, index) => renderCharacter(char, index))}
+      </div>
+      <div className='score'>
+        <p>Time: {timer}</p>
+        <p>WPM: {Math.round(score)}</p>
+        <p>Accuracy: {Math.round(accuracy)}%</p>
+      </div>
     </div>
   );
 }
