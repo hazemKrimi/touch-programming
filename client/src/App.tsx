@@ -1,7 +1,7 @@
-import Code from './components/Code';
+import Typing from 'pages/Typing';
 
 function App() {
-  return <Code />;
+  return <Typing />;
 }
 
 export default App;

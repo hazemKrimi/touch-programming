@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useTypingContext } from "contexts/typing";
+
+import './index.css';
 
 function Score() {
-  const [timer] = useState<number>(0);
-  const [score] = useState<number>(0);
-  const [accuracy] = useState<number>(0);
+  const {
+    timer,
+    score,
+    accuracy,
+  } = useTypingContext();
 
   return (
     <div className='score'>

@@ -1,58 +1,81 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
-export type CodeContextValues = {
+export type TypingContextValues = {
   startedTyping: boolean;
   characters: Array<boolean | 'space'>;
+  timer: number;
   score: number;
   accuracy: number;
 
   setStartedTyping: React.Dispatch<React.SetStateAction<boolean>>;
   setCharacters: React.Dispatch<React.SetStateAction<Array<boolean | 'space'>>>;
+  setTimer: React.Dispatch<React.SetStateAction<number>>;
   setScore: React.Dispatch<React.SetStateAction<number>>;
   setAccuracy: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const CodeContext = createContext<CodeContextValues>({
+const TypingContext = createContext<TypingContextValues>({
   startedTyping: false,
   characters: [],
+  timer: 0,
   score: 0,
   accuracy: 0,
 
   setStartedTyping: () => { },
   setCharacters: () => { },
+  setTimer: () => { },
   setScore: () => { },
   setAccuracy: () => { },
 });
 
-export function useCodeContext() {
-  return useContext(CodeContext);
+export function useTypingContext() {
+  return useContext(TypingContext);
 }
 
-type CodeContextProviderProps = {
+type TypingContextProviderProps = {
  children: React.ReactNode,
 }
 
-function CodeContextProvider({ children }: CodeContextProviderProps) {
+function TypingContextProvider({ children }: TypingContextProviderProps) {
   const [startedTyping, setStartedTyping] = useState<boolean>(false);
   const [characters, setCharacters] = useState<Array<boolean | 'space'>>([]);
+  const [timer, setTimer] = useState<number>(0);
   const [score, setScore] = useState<number>(0);
   const [accuracy, setAccuracy] = useState<number>(0);
 
+  useEffect(() => {
+    let interval = null;
+
+    if (!startedTyping) {
+      if (interval) clearInterval(interval);
+
+      return;
+    }
+
+    interval = setInterval(() => {
+      setTimer(prev => prev + 1);
+    }, 1000);
+    
+    return () => clearInterval(interval);
+  }, [startedTyping]);
+
   return (
-    <CodeContext.Provider value={{
+    <TypingContext.Provider value={{
       startedTyping,
       characters,
+      timer,
       score,
       accuracy,
 
       setStartedTyping,
       setCharacters,
+      setTimer,
       setScore,
       setAccuracy,
     }}>
       {children}
-    </CodeContext.Provider>
+    </TypingContext.Provider>
   )
 }
 
-export default CodeContextProvider;
+export default TypingContextProvider;
