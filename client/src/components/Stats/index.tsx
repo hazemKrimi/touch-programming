@@ -7,7 +7,7 @@ type StatsProps = {
   loaded: boolean;
 }
 
-function Score({ loaded }: StatsProps) {
+function Stats({ loaded }: StatsProps) {
   const {
     timer,
     score,
@@ -25,4 +25,4 @@ function Score({ loaded }: StatsProps) {
   )
 }
 
-export default Score;
+export default Stats;
