@@ -1,12 +1,13 @@
 import { useTypingContext } from "contexts/typing";
 
 import './index.css';
+import { renderTimer } from "./utils";
 
 type StatsProps = {
   loaded: boolean;
 }
 
-function Score({loaded}: StatsProps) {
+function Score({ loaded }: StatsProps) {
   const {
     timer,
     score,
@@ -17,7 +18,7 @@ function Score({loaded}: StatsProps) {
 
   return (
     <div className='score'>
-      <p>Time: {timer}</p>
+      {renderTimer(timer)}
       <p>WPM: {Math.round(score)}</p>
       <p>Accuracy: {Math.round(accuracy)}%</p>
     </div>

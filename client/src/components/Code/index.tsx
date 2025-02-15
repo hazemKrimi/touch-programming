@@ -70,7 +70,7 @@ function Code({code, loaded}: CodeProps) {
     const incorrectlyTyped = characters.filter(char => !char).length;
 
     if (timer > 0) {
-      setScore((typed / 5 - incorrectlyTyped) / (timer / 60));
+      setScore(Math.abs(typed / 5 - incorrectlyTyped) / (timer / 60));
       setAccuracy(correctlyTyped / typed * 100);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
