@@ -13,7 +13,7 @@ type CodeProps = {
   loaded: boolean;
 }
 
-function Code({code, loaded}: CodeProps) {
+function Code({ code, loaded }: CodeProps) {
   const {
     startedTyping,
     characters,
@@ -30,13 +30,7 @@ function Code({code, loaded}: CodeProps) {
       event.preventDefault();
 
       if (!loaded) return;
-      if (characters.length === code.length) {
-        setStartedTyping(false);
-
-        return;
-      }
       if (KEYS_TO_DISABLE.includes(event.key)) return;
-
       if (!startedTyping) setStartedTyping(true);
 
       const char = code[characters.length];
@@ -65,6 +59,8 @@ function Code({code, loaded}: CodeProps) {
   }, [loaded, characters]);
 
   useEffect(() => {
+    if (characters.length === code.length) setStartedTyping(false);
+
     const typed = characters.filter(char => char !== 'space').length;
     const correctlyTyped = characters.filter(char => char && char !== 'space').length;
     const incorrectlyTyped = characters.filter(char => !char).length;
