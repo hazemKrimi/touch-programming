@@ -6,8 +6,10 @@ import Code from 'components/Code';
 import Stats from 'components/Stats';
 
 import './index.css';
+import { useParams } from 'react-router';
 
 function Typing() {
+  const {lang} = useParams();
   const [code, setCode] = useState<string>('');
   const [loaded, setLoaded] = useState<boolean>(false);
 
@@ -16,7 +18,7 @@ function Typing() {
       setCode('');
 
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/generate?lang=lisp`,
+        `${import.meta.env.VITE_API_URL}/generate?lang=${lang}`,
       );
 
       if (!response.ok || !response.body) return;
