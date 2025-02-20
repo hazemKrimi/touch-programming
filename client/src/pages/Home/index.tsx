@@ -1,16 +1,24 @@
 import { NavLink } from 'react-router';
+
+import { isMobileBrowser } from 'utils';
+
 import './index.css';
 
 function Home() {
+  const isMobile = isMobileBrowser();
+
   return (
     <div className='home-container'>
       <header>
         <h1>Touch Programming</h1>
         <p>Master touch typing with real code snippets from your favorite programming languages, powered by AI.</p>
         <NavLink to='/languages'>
-          <button className='cta'>
-            Start Typing
-          </button>
+          {isMobile ?
+            <span>This app is made to be used in a desktop device.</span> :
+            <button className='cta'>
+              Start Typing
+            </button>
+          }
         </NavLink>
       </header>
 

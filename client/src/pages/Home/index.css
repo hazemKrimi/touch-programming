@@ -34,6 +34,10 @@ header p {
   color: var(--white);
 }
 
+header span {
+	color: var(--crimson);
+}
+
 header .cta {
 	all: unset;
 	cursor: pointer;
@@ -52,7 +56,6 @@ header .cta {
 }
 
 .features {
-  margin-top: 2rem;
   padding: 2.5rem 1.25rem;
 
   display: grid;

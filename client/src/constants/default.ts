@@ -34,7 +34,6 @@ export const KEYS_TO_DISABLE = [
   'ArrowLeft',
   'ArrowRight',
 ];
-
 export const SUPPORTED_LANGUAGES = [
   'javascript',
   'typescript',

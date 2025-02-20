@@ -7,6 +7,7 @@ import { KEYS_TO_DISABLE } from 'constants/default';
 import { renderCharacter } from './utils';
 
 import './index.css';
+import Spinner from 'components/Spinner';
 
 type CodeProps = {
   code: string;
@@ -71,6 +72,12 @@ function Code({ code, loaded }: CodeProps) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timer, characters]);
+
+  if (!code) return (
+    <div className='code-container'>
+      <Spinner />
+    </div>
+  );
 
   return (
     <div className='code-container'>

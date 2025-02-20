@@ -24,3 +24,7 @@ header h1 {
 
 	text-transform: capitalize;
 }
+
+header span {
+	color: var(--crimson);
+}

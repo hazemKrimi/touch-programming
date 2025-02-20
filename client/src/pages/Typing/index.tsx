@@ -3,17 +3,22 @@ import { useParams } from 'react-router';
 
 import TypingContextProvider from 'contexts/typing';
 
+import { isMobileBrowser } from 'utils';
+
 import Code from 'components/Code';
 import Stats from 'components/Stats';
 
 import './index.css';
 
 function Typing() {
-  const {lang} = useParams();
+  const isMobile = isMobileBrowser();
+  const { lang } = useParams();
   const [code, setCode] = useState<string>('');
   const [loaded, setLoaded] = useState<boolean>(false);
 
   useEffect(() => {
+    if (isMobile) return;
+
     (async function () {
       setCode('');
 
@@ -39,7 +44,17 @@ function Typing() {
       setCode((prev) => prev.trim());
       setLoaded(true);
     })();
-  }, [lang]);
+  }, [isMobile, lang]);
+
+  if (isMobile) {
+    return (
+      <div className='typing-container'>
+        <header>
+          <span>This app is made to be used in a desktop device.</span>
+        </header>
+      </div>
+    );
+  }
 
   return (
     <TypingContextProvider>

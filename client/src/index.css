@@ -1,10 +1,24 @@
+@font-face {
+  font-family: '0xProto';
+  font-style: normal;
+  font-weight: normal;
+  src: url(assets/fonts/0xProtoNerdFont-Regular.ttf) format(truetype);
+}
+
+@font-face {
+  font-family: '0xProto';
+  font-style: normal;
+  font-weight: bold;
+  src: url(assets/fonts/0xProtoNerdFont-Bold.ttf) format(truetype);
+}
+
 :root {
   --black: #131314;
   --white: #dddddd;
   --crimson: #bd1839;
   --background: #1d1b1b;
 
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: '0xProto', sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -56,13 +70,13 @@ body::-webkit-scrollbar-thumb {
 }
 
 .app {
-	min-height: 95vh;
+  min-height: 95vh;
 }
 
 @media (min-width: 1441px) {
   .app {
     width: 1368px;
 
-		margin: 0 auto;
+    margin: 0 auto;
   }
 }
