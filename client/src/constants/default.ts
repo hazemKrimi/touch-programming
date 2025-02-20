@@ -51,7 +51,6 @@ export const SUPPORTED_LANGUAGES = [
   'haskell',
   'clojure',
   'lua',
-  'r',
   'perl',
   'bash',
   'powershell',
