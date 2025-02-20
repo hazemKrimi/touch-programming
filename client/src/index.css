@@ -1,4 +1,9 @@
 :root {
+  --black: #131314;
+  --white: #dddddd;
+  --crimson: #bd1839;
+  --background: #1d1b1b;
+
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -12,10 +17,52 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-body {
+* {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  padding: 0;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+::selection {
+  background: var(--crimson);
+  color: var(--white);
+}
+
+a {
+  text-decoration: none;
+  color: var(--white);
+}
+
+body {
+  background: var(--background);
+  color: var(--white);
+}
+
+body::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: var(--crimson);
+}
+
+.app {
+	min-height: 95vh;
+}
+
+@media (min-width: 1441px) {
+  .app {
+    width: 1368px;
+
+		margin: 0 auto;
+  }
 }

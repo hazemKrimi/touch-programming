@@ -17,7 +17,7 @@ function Stats({ loaded }: StatsProps) {
   if (!loaded) return;
 
   return (
-    <div className='score'>
+    <div className='stats-container'>
       {renderTimer(timer)}
       <p>WPM: {Math.round(score)}</p>
       <p>Accuracy: {Math.round(accuracy)}%</p>

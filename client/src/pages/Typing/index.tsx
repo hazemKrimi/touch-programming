@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
 
 import TypingContextProvider from 'contexts/typing';
 
@@ -6,7 +7,6 @@ import Code from 'components/Code';
 import Stats from 'components/Stats';
 
 import './index.css';
-import { useParams } from 'react-router';
 
 function Typing() {
   const {lang} = useParams();
@@ -39,11 +39,16 @@ function Typing() {
       setCode((prev) => prev.trim());
       setLoaded(true);
     })();
-  }, []);
+  }, [lang]);
 
   return (
     <TypingContextProvider>
-      <div className='container'>
+      <div className='typing-container'>
+        <header>
+          <h1>
+            Practice Typing in {lang}
+          </h1>
+        </header>
         <Code code={code} loaded={loaded} />
         <Stats loaded={loaded} />
       </div>

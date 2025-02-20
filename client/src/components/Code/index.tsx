@@ -73,7 +73,7 @@ function Code({ code, loaded }: CodeProps) {
   }, [timer, characters]);
 
   return (
-    <div className='code'>
+    <div className='code-container'>
       {code.split('').map((char, index) => renderCharacter(code, characters, loaded, char, index))}
     </div>
   );

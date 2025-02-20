@@ -1,9 +1,24 @@
+import { NavLink } from 'react-router';
+
+import { SUPPORTED_LANGUAGES } from 'constants/default';
+
 import './index.css';
 
 function Languages() {
   return (
-    <div className='container'>
-      <h1>Languages</h1>
+    <div className='languages-container'>
+      <header>
+        <h1>Choose Your Preferred Language</h1>
+      </header>
+      <div className='languages-wrapper'>
+        {SUPPORTED_LANGUAGES.map((lang) => (
+          <NavLink to={`/typing/${lang}`} key={lang}>
+            <div className='language'>
+              <h2>{lang}</h2>
+            </div>
+          </NavLink>
+        ))}
+      </div>
     </div>
   );
 }

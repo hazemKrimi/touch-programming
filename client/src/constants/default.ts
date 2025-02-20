@@ -34,3 +34,31 @@ export const KEYS_TO_DISABLE = [
   'ArrowLeft',
   'ArrowRight',
 ];
+
+export const SUPPORTED_LANGUAGES = [
+  'javascript',
+  'typescript',
+  'python',
+  'rust',
+  'golang',
+  'java',
+  'ruby',
+  'php',
+  'swift',
+  'kotlin',
+  'dart',
+  'scala',
+  'elixir',
+  'haskell',
+  'clojure',
+  'lua',
+  'r',
+  'perl',
+  'bash',
+  'powershell',
+  'pascal',
+  'ocaml',
+  'c',
+  'c++',
+  'fortran'
+];
