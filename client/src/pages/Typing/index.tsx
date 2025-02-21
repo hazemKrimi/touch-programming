@@ -12,9 +12,9 @@ import './index.css';
 
 function Typing() {
   const isMobile = isMobileBrowser();
-  const { lang } = useParams();
   const [code, setCode] = useState<string>('');
   const [loaded, setLoaded] = useState<boolean>(false);
+  const { lang } = useParams();
 
   useEffect(() => {
     if (isMobile) return;

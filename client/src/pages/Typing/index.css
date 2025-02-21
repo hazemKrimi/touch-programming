@@ -1,10 +1,18 @@
 .typing-container {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
 
-	margin-bottom: 1rem;
+  padding: 0rem 3rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+	.typing-container {
+		padding: 0rem;
+		word-break: break-word;
+	}
 }
 
 header {
@@ -22,9 +30,9 @@ header h1 {
 
   color: var(--crimson);
 
-	text-transform: capitalize;
+  text-transform: capitalize;
 }
 
 header span {
-	color: var(--crimson);
+  color: var(--crimson);
 }

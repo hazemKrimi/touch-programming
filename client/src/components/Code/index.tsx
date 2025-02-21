@@ -32,6 +32,7 @@ function Code({ code, loaded }: CodeProps) {
 
       if (!loaded) return;
       if (KEYS_TO_DISABLE.includes(event.key)) return;
+      if (characters.length === code.length) return;
       if (!startedTyping) setStartedTyping(true);
 
       const char = code[characters.length];

@@ -10,3 +10,20 @@
 
   background: var(--black);
 }
+
+.share {
+	all: unset;
+	cursor: pointer;
+
+  background: var(--crimson);
+	color: var(--white);
+
+	border-radius: 0.75rem;
+	box-shadow: none;
+
+	padding: 1rem 2rem;
+	font-size: 1.25rem;
+	font-weight: bold;
+
+	text-decoration: none;
+}

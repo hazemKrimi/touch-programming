@@ -7,6 +7,13 @@
   background: var(--black);
 }
 
+@media (max-width: 768px) {
+	.code-container {
+		min-width: 0px;
+		max-width: 80%;
+	}
+}
+
 .pending, .space {
   color: gray;
 }

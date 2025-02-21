@@ -2,7 +2,13 @@ footer {
   text-align: center;
 
 	width: 100%;
-	min-height: 5vh;
+	padding: 1rem 0rem;
+
+	position: fixed;
+	bottom: 0;
+	left: 0;
+
+	background: var(--background);
 }
 
 footer a {
