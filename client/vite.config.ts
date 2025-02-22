@@ -2,12 +2,14 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import vitesTSConfigPaths from 'vite-tsconfig-paths';
 import mkcert from 'vite-plugin-mkcert';
+import svgr from "vite-plugin-svgr";
 
 export default defineConfig({
   plugins: [
     react(),
     vitesTSConfigPaths(),
-    mkcert()
+    mkcert(),
+    svgr(),
   ],
   server: {
     port: 3000,
