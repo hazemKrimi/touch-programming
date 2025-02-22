@@ -135,7 +135,7 @@ func Generate(ctx echo.Context) error {
 			return nil
 		}
 
-		return ctx.String(http.StatusInternalServerError, "Error generating code!")
+		return ctx.String(http.StatusInternalServerError, "Error generating code: " + err.Error())
 	}
 
 	return nil

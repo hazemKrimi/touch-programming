@@ -15,7 +15,7 @@ func main() {
 	err := godotenv.Load()
 
 	if err != nil {
-		log.Fatal("Error loading environment!")
+		log.Fatal("Error loading environment: ", err.Error())
 	}
 
 	PORT := os.Getenv("PORT")
@@ -34,11 +34,11 @@ func main() {
 		}
 
 		ech.Logger.Fatal(ech.Start(fmt.Sprintf(":%s", PORT)))
-	}
+	} else {
+		if len(PORT) == 0 {
+			PORT = "4443"
+		}
 
-	if len(PORT) == 0 {
-		PORT = "4443"
+		ech.Logger.Fatal(ech.StartTLS(fmt.Sprintf(":%s", PORT), SSL_CERT_PATH, SSL_KEY_PATH))
 	}
-
-	ech.Logger.Fatal(ech.StartTLS(fmt.Sprintf(":%s", PORT), SSL_CERT_PATH, SSL_KEY_PATH))
 }
