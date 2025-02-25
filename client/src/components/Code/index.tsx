@@ -12,9 +12,10 @@ import Spinner from 'components/Spinner';
 type CodeProps = {
   code: string;
   loaded: boolean;
+  error: boolean;
 }
 
-function Code({ code, loaded }: CodeProps) {
+function Code({ code, error, loaded }: CodeProps) {
   const {
     startedTyping,
     characters,
@@ -73,6 +74,12 @@ function Code({ code, loaded }: CodeProps) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timer, characters]);
+  
+  if (error) return (
+    <div className='code-container'>
+      <p>There was an error fetching the code. Please try again later!</p>
+    </div>
+  );
 
   if (!code) return (
     <div className='code-container'>

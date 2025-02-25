@@ -14,35 +14,40 @@ function Typing() {
   const isMobile = isMobileBrowser();
   const [code, setCode] = useState<string>('');
   const [loaded, setLoaded] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
   const { lang } = useParams();
 
   useEffect(() => {
     if (isMobile) return;
 
     (async function () {
-      setCode('');
+      try {
+        setCode('');
 
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/generate?lang=${lang}`,
-      );
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/generate?lang=${lang}`,
+        );
 
-      if (!response.ok || !response.body) return;
+        if (!response.ok || !response.body) return;
 
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
 
-      while (true) {
-        const { value, done } = await reader.read();
+        while (true) {
+          const { value, done } = await reader.read();
 
-        setCode((prev) => prev + decoder.decode(value));
+          setCode((prev) => prev + decoder.decode(value));
 
-        if (done) {
-          break;
+          if (done) {
+            break;
+          }
         }
-      }
 
-      setCode((prev) => prev.trim());
-      setLoaded(true);
+        setCode((prev) => prev.trim());
+        setLoaded(true);
+      } catch {
+        setError(true);
+      }
     })();
   }, [isMobile, lang]);
 
@@ -64,7 +69,7 @@ function Typing() {
             Practice Typing in {lang}
           </h1>
         </header>
-        <Code code={code} loaded={loaded} />
+        <Code code={code} error={error} loaded={loaded} />
         <Stats loaded={loaded} />
       </div>
     </TypingContextProvider>
