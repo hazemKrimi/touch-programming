@@ -28,7 +28,10 @@ function Typing() {
           `${import.meta.env.VITE_API_URL}/generate?lang=${lang}`,
         );
 
-        if (!response.ok || !response.body) return;
+        if (!response.ok || !response.body) {
+          setError(true);
+          return;
+        }
 
         const reader = response.body.getReader();
         const decoder = new TextDecoder();
