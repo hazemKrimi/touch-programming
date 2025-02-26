@@ -1,0 +1,19 @@
+[Unit]
+Description=Touch Programming API Service
+
+[Service]
+ExecStart=/usr/local/bin/touch-programming-api
+WorkingDirectory=/usr/local/bin
+User=hazem
+Group=hazem
+LimitNOFILE=65536
+Restart=on-failure
+TimeoutSec=30
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=yes
+NoNewPrivileges=true
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+
+[Install]
+WantedBy=multi-user.target
