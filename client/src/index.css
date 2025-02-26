@@ -59,6 +59,8 @@ a {
 body {
   background: var(--background);
   color: var(--white);
+
+	min-height: 100vh;
 }
 
 body::-webkit-scrollbar {
