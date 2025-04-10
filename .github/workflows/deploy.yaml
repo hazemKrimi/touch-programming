@@ -33,19 +33,18 @@ jobs:
       run: |
         cd server
         CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o executable
+      
+    - name: Setup SSH
+      uses: shimataro/ssh-key-action@v2
+      with:
+        key: ${{ secrets.DEPLOY_SSH_KEY }}
+        known_hosts: hazemkrimi.tech
+        if_key_exists: ignore
 
     - name: Deploy to VPS
       env:
         HOST: hazemkrimi.tech
         USER: deploy
       run: |
-        mkdir -p ~/.ssh
-        echo $DEPLOY_SSH_KEY > ~/.ssh/id_deploy
-        chmod 600 ~/.ssh/id_deploy
-
-        echo "Host *" > ~/.ssh/config
-        echo "  StrictHostKeyChecking no" >> ~/.ssh/config
-        echo "  UserKnownHostsFile /dev/null" >> ~/.ssh/config
-
-        scp -i ~/.ssh/id_deploy -r client/build $USER@$HOST:/var/www/touch-programming.hazemkrimi.tech/public
-        scp -i ~/.ssh/id_deploy server/executable $USER@$HOST:/var/www/touch-programming.hazemkrimi.tech/api
+        scp -r client/build $USER@$HOST:/var/www/touch-programming.hazemkrimi.tech/public
+        scp server/executable $USER@$HOST:/var/www/touch-programming.hazemkrimi.tech/api
