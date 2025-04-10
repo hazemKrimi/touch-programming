@@ -47,7 +47,7 @@ jobs:
         echo "$SSH_KEY" > ~/.ssh/id_deploy
         chmod 600 ~/.ssh/id_deploy
         ssh-keyscan -H hazemkrimi.tech >> ~/.ssh/known_hosts
-        # rsync -avz --delete client/build/* deploy@hazemkrimi.tech:/var/www/touch-programming.hazemkrimi.tech/public
+        rsync -avz --delete client/build/* deploy@hazemkrimi.tech:/var/www/touch-programming.hazemkrimi.tech/public
         rsync -avz --delete server/executable deploy@hazemkrimi.tech:/var/www/touch-programming.hazemkrimi.tech/api
         # scp -r client/build deploy@hazemkrimi.tech:/var/www/touch-programming.hazemkrimi.tech/public
         # scp server/executable deploy@hazemkrimi.tech:/var/www/touch-programming.hazemkrimi.tech/api
