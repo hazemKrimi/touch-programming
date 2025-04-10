@@ -43,5 +43,10 @@ jobs:
           mkdir -p ~/.ssh
           echo "$DEPLOY_SSH_KEY" > ~/.ssh/id_vps_deploy
           chmod 600 ~/.ssh/id_vps_deploy
-          scp -r client/build $USER@$HOST:/var/www/touch-programming.hazemkrimi.tech/public
-          scp -r server/executable $USER@$HOST:/var/www/touch-programming.hazemkrimi.tech/api
+
+          echo "Host *" > ~/.ssh/config
+          echo "  StrictHostKeyChecking no" >> ~/.ssh/config
+          echo "  UserKnownHostsFile /dev/null" >> ~/.ssh/config
+
+          scp -i ~/.ssh/id_vps_deploy -r client/build $USER@$HOST:/var/www/touch-programming.hazemkrimi.tech/public
+          scp -i ~/.ssh/id_vps_deploy server/executable $USER@$HOST:/var/www/touch-programming.hazemkrimi.tech/api
