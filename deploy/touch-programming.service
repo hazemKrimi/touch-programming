@@ -2,8 +2,8 @@
 Description=Touch Programming API Service
 
 [Service]
-ExecStart=/usr/local/bin/touch-programming-api
-WorkingDirectory=/usr/local/bin
+ExecStart=/var/www/touch-programming.hazemkrimi.tech/api/executable
+WorkingDirectory=/var/www/touch-programming.hazemkrimi.tech/api
 User=hazem
 Group=hazem
 LimitNOFILE=65536

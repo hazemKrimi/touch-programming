@@ -26,7 +26,9 @@ func main() {
 
 	ech := echo.New()
 
-	ech.Use(middleware.CORS())
+	ech.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"https://touch-programming.hazemkrimi.tech"},
+	}))
 
 	ech.GET("/generate", handlers.Generate)
 

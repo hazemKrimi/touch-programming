@@ -1,7 +1,6 @@
 export const KEYS_TO_DISABLE = [
   'Backspace',
   'Shift',
-  'Alt',
   'Control',
   'F1',
   'F2',
