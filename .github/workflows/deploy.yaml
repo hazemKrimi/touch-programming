@@ -34,19 +34,14 @@ jobs:
         cd server
         CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o executable
 
-    - name: Prepare to deploy
-      run: |
-        mkdir touch-programming.hazemkrimi.tech
-        mkdir touch-programming.hazemkrimi.tech/public
-        mkdir touch-programming.hazemkrimi.tech/api
-        cp -r client/build touch-programming.hazemkrimi.tech/public
-        cp server/executable touch-programming.hazemkrimi.tech/api
-
     - name: Deploy to VPS
-      uses: appleboy/scp-action@v0.1.4
-      with:
-        host: hazemkrimi.tech
-        username: deploy
-        key: ${{ secrets.DEPLOY_SSH_KEY }}
-        source: "touch-programming.hazemkrimi.tech"
-        target: "/var/www"
+      env:
+        HOST: hazemkrimi.tech
+        USER: deploy
+        KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+      run: |
+          mkdir -p ~/.ssh
+          echo "$DEPLOY_SSH_KEY" > ~/.ssh/id_vps_deploy
+          chmod 600 ~/.ssh/id_vps_deploy
+          scp -r client/build $USER@$HOST:/var/www/touch-programming.hazemkrimi.tech/public
+          scp -r server/executable $USER@$HOST:/var/www/touch-programming.hazemkrimi.tech/api
