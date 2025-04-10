@@ -34,16 +34,25 @@ jobs:
         cd server
         CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o executable
 
-    - name: Setup SSH
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
+    # - name: Setup SSH
+    #   uses: webfactory/ssh-agent@v0.5.3
+    #   with:
+    #     ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
 
     - name: Deploy to VPS
       env:
         HOST: hazemkrimi.tech
         USER: deploy
       run: |
+        mkdir -p ~/.ssh
+        echo $DEPLOY_SSH_KEY > ~/.ssh/id_deploy
+        chmod 600 ~/.ssh/id_deploy
+
+        echo "Host *" > ~/.ssh/config
+        echo "  StrictHostKeyChecking no" >> ~/.ssh/config
+        echo "  UserKnownHostsFile /dev/null" >> ~/.ssh/config
+
         ssh-keyscan -H $HOST > ~/.ssh/known_hosts
+
         scp -r client/build $USER@$HOST:/var/www/touch-programming.hazemkrimi.tech/public
         scp server/executable $USER@$HOST:/var/www/touch-programming.hazemkrimi.tech/api
