@@ -35,10 +35,9 @@ jobs:
         CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o executable
       
     - name: Setup SSH
-      uses: shimataro/ssh-key-action@v2
+      uses: webfactory/ssh-agent@v0.9.0
       with:
-        key: ${{ secrets.DEPLOY_SSH_KEY }}
-        if_key_exists: ignore
+        ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
 
     - name: Deploy to VPS
       run: |
