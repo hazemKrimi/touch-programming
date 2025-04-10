@@ -13,7 +13,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Install Node.js
+    - name: Setup Node.js
       uses: actions/setup-node@v2
       with:
         node-version: 18
@@ -44,6 +44,6 @@ jobs:
         HOST: hazemkrimi.tech
         USER: deploy
       run: |
-        ssh-keyscan -H hazemkrimi.tech > ~/.ssh/known_hosts
+        ssh-keyscan -H $HOST > ~/.ssh/known_hosts
         scp -r client/build $USER@$HOST:/var/www/touch-programming.hazemkrimi.tech/public
         scp server/executable $USER@$HOST:/var/www/touch-programming.hazemkrimi.tech/api
