@@ -21,6 +21,7 @@ jobs:
     - name: Build client
       run: |
         cd client
+        echo "VITE_API_URL=https://touch-programming.hazemkrimi.tech/api" > .env.production
         npm install
         npm run build
 
@@ -43,9 +44,9 @@ jobs:
       env: 
         SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
       run: |
-        mkdir -p ~/.ssh
-        echo "$SSH_KEY" > ~/.ssh/id_deploy
-        chmod 600 ~/.ssh/id_deploy
+        # mkdir -p ~/.ssh
+        # echo "$SSH_KEY" > ~/.ssh/id_deploy
+        # chmod 600 ~/.ssh/id_deploy
         ssh-keyscan -H hazemkrimi.tech >> ~/.ssh/known_hosts
         rsync -avz --delete client/build/* deploy@hazemkrimi.tech:/var/www/touch-programming.hazemkrimi.tech/public
         rsync -avz --delete server/executable deploy@hazemkrimi.tech:/var/www/touch-programming.hazemkrimi.tech/api
