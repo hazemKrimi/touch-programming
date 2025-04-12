@@ -35,6 +35,10 @@ header p {
   color: var(--white);
 }
 
+header a {
+	color: var(--crimson);
+}
+
 header span {
 	color: var(--crimson);
 }
@@ -95,7 +99,7 @@ header .cta {
 }
 
 .benefits {
-  padding: 2.5rem 1.25rem;
+  padding: 2.25rem 1.25rem;
 }
 
 .benefits h2 {

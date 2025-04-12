@@ -11,7 +11,7 @@ function Home() {
     <div className='home-container'>
       <header>
         <h1>Touch Programming</h1>
-        <p>Master touch typing with real code snippets from your favorite programming languages, powered by AI.</p>
+        <p>Master touch typing with real code snippets from your favorite programming languages, <a href='https://github.com/hazemKrimi/touch-programming' target='_blank' rel="noreferrer">Open Source</a> and powered by AI.</p>
         <NavLink to='/languages'>
           {isMobile ?
             <span>This app is made to be used in a desktop device.</span> :

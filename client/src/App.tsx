@@ -5,21 +5,16 @@ import Languages from 'pages/Languages';
 import Typing from 'pages/Typing';
 import NotFound from 'pages/NotFound';
 
-import Footer from 'components/Footer';
-
 function App() {
   return (
-    <>
-      <div className='app'>
-        <Routes>
-          <Route index element={<Home />} />
-          <Route path='languages' element={<Languages />} />
-          <Route path='typing/:lang' element={<Typing />} />
-          <Route path='*' element={<NotFound />} />
-        </Routes>
-      </div>
-      <Footer />
-    </>
+    <div className='app'>
+      <Routes>
+        <Route index element={<Home />} />
+        <Route path='languages' element={<Languages />} />
+        <Route path='typing/:lang' element={<Typing />} />
+        <Route path='*' element={<NotFound />} />
+      </Routes>
+    </div>
   );
 }
 

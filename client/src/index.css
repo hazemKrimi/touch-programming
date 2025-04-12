@@ -31,9 +31,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  margin: 0;
-  padding: 0;
+*, *::before, *::after {
+	margin: 0;
+	padding: 0;
+  box-sizing: border-box;
 }
 
 ::-webkit-scrollbar {
@@ -56,11 +57,13 @@ a {
   color: var(--white);
 }
 
+html, body {
+	overflow: auto;
+}
+
 body {
   background: var(--background);
   color: var(--white);
-
-	min-height: 100vh;
 }
 
 body::-webkit-scrollbar {
@@ -72,7 +75,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .app {
-  min-height: 100vh;
+	min-height: 100vh;
 }
 
 @media (min-width: 1441px) {
