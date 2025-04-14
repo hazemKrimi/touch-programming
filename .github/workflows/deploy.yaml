@@ -33,7 +33,7 @@ jobs:
     - name: Build server
       run: |
         cd server
-        echo "LLM_MODEL=llama3.2:1b\nMAX_LINEX=15" > .env
+        echo -e "LLM_MODEL=llama3.2:1b\nMAX_LINES=15" >> .env
         CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o executable
       
     - name: Setup SSH
