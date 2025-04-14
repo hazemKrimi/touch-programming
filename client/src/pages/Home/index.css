@@ -8,6 +8,10 @@
 		padding: 0rem;
 		word-break: break-word;
 	}
+	
+	section {
+		padding: 1.75rem 1.25rem !important;
+	}
 }
 
 header {
@@ -24,6 +28,13 @@ header h1 {
   margin-bottom: 1.5rem;
 
   color: var(--crimson);
+}
+
+@media (max-width: 768px) {
+	header h1 {
+		font-size: 3.25rem !important;
+		margin-bottom: 1rem !important;
+	}
 }
 
 header p {
@@ -58,20 +69,6 @@ header .cta {
 	font-weight: bold;
 
 	text-decoration: none;
-}
-
-@media (max-width: 768px) {
-	header h1 {
-		font-size: 2.5rem;
-	}
-
-	header p {
-		font-size: 1.25rem;
-	}
-
-	header .cta {
-		font-size: 1rem;
-	}
 }
 
 .features {
@@ -110,6 +107,13 @@ header .cta {
   margin-bottom: 1.5rem;
 
   color: var(--crimson);
+}
+
+@media (max-width: 768px) {
+	.benefits h2 {
+		font-size: 3.25rem !important;
+		margin-bottom: 1rem !important;
+	}
 }
 
 .benefits-wrapper {

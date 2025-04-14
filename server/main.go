@@ -24,10 +24,16 @@ func main() {
 		PORT = "8080"
 	}
 
+	ALLOWED_ORIGIN := os.Getenv("ALLOWED_ORIGIN")
+
+	if len(ALLOWED_ORIGIN) == 0 {
+		ALLOWED_ORIGIN = "https://touch-programming.hazemkrimi.tech"
+	}
+
 	ech := echo.New()
 
 	ech.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"https://touch-programming.hazemkrimi.tech"},
+		AllowOrigins: []string{ALLOWED_ORIGIN},
 	}))
 
 	ech.GET("/generate", handlers.Generate)
