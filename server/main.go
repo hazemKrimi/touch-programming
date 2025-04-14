@@ -21,7 +21,7 @@ func main() {
 	PORT := os.Getenv("PORT")
 
 	if len(PORT) == 0 {
-		PORT = "8080"
+		PORT = "5000"
 	}
 
 	ALLOWED_ORIGIN := os.Getenv("ALLOWED_ORIGIN")
